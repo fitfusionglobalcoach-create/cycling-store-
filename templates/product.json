@@ -223,12 +223,6 @@
                 "message": "You save [amount]"
               }
             },
-            "lo_fits": {
-              "type": "lo-fits",
-              "settings": {
-                "link_label": "Change setup"
-              }
-            },
             "lo_stock": {
               "type": "lo-stock",
               "settings": {
@@ -254,7 +248,6 @@
             "lo_savings",
             "divider_VJhene",
             "variant_picker_R3rGDr",
-            "lo_fits",
             "buy_buttons_eYQEYi",
             "lo_stock",
             "lo_delivery",
@@ -417,17 +410,10 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
-    },
-    "complete_cockpit": {
-      "type": "lo-complete-cockpit",
-      "settings": {
-        "scheme": "light"
-      }
     }
   },
   "order": [
     "main",
-    "complete_cockpit",
     "product_recommendations_qggXJq"
   ]
 }

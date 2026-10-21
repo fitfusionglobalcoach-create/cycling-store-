@@ -1,0 +1,131 @@
+{%- liquid
+  assign s = section.settings
+  assign product = s.product
+  if product == blank
+    assign product = collections.all.products.first
+  endif
+  assign current = product.selected_or_first_available_variant
+-%}
+<section class="lo-spotlight lo-scheme-{{ s.scheme }}" id="lo-spotlight-{{ section.id }}">
+  <span id="{{ s.anchor | default: 'lo-shop' | handleize }}" class="lo-anchor"></span>
+  <div class="lo-wrap lo-spotlight__inner">
+    <div class="lo-spotlight__gallery" data-lo-reveal>
+      {%- if product.media.size > 0 -%}
+        <div class="lo-spotlight__main" data-lo-zoom>
+          {%- for media in product.media limit: 8 -%}
+            {%- if media.media_type == 'image' -%}
+              {{
+                media
+                | image_url: width: 1600
+                | image_tag:
+                  widths: '450, 750, 1000, 1300, 1600',
+                  sizes: '(min-width: 990px) 55vw, 100vw',
+                  loading: 'lazy',
+                  alt: media.alt | default: product.title,
+                  data-media-id: media.id,
+                  class: 'lo-spotlight__img'
+              }}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="lo-spotlight__main">{{ 'product-1' | placeholder_svg_tag: 'lo-placeholder' }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="lo-spotlight__info" data-lo-reveal>
+      {%- if s.eyebrow != blank -%}<p class="lo-eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+      <h2 class="lo-spotlight__title">{{ product.title | default: s.fallback_title }}</h2>
+      {%- if product != blank -%}
+        <p class="lo-spotlight__price">
+          <span data-lo-price>{{ current.price | money }}</span>
+          <s data-lo-compare {% unless current.compare_at_price > current.price %}hidden{% endunless %}>{{ current.compare_at_price | money }}</s>
+        </p>
+      {%- endif -%}
+      {%- if s.text != blank -%}<div class="lo-rte">{{ s.text }}</div>{%- endif -%}
+
+      {%- if product != blank -%}
+        {%- unless product.has_only_default_variant -%}
+          <label class="lo-field lo-spotlight__variant">
+            <span class="lo-field__label">{{ s.variant_label }}</span>
+            <select data-lo-variant>
+              {%- for variant in product.variants -%}
+                <option
+                  value="{{ variant.id }}"
+                  data-price="{{ variant.price | money | escape }}"
+                  data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}"
+                  data-media="{{ variant.featured_media.id }}"
+                  {% if variant.id == current.id %}selected{% endif %}
+                  {% unless variant.available %}disabled{% endunless %}
+                >{{ variant.title }}</option>
+              {%- endfor -%}
+            </select>
+          </label>
+        {%- endunless -%}
+        <div class="lo-spotlight__actions">
+          <button type="button" class="lo-btn lo-btn--accent" data-lo-add-items="{{ current.id }}" {% unless current.available %}disabled{% endunless %}>{{ s.button_label }}</button>
+          <a href="{{ product.url }}" class="lo-btn lo-btn--ghost">{{ s.details_label }}</a>
+        </div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="lo-spotlight__points">
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const root = document.getElementById('lo-spotlight-{{ section.id }}');
+    const select = root?.querySelector('[data-lo-variant]');
+    if (!select) return;
+    const show = (mediaId) => {
+      const imgs = [...root.querySelectorAll('.lo-spotlight__img')];
+      const target = imgs.find((img) => img.dataset.mediaId === mediaId) || imgs[0];
+      imgs.forEach((img) => img.classList.toggle('is-active', img === target));
+    };
+    const update = () => {
+      const option = select.selectedOptions[0];
+      root.querySelector('[data-lo-price]').textContent = option.dataset.price;
+      const compare = root.querySelector('[data-lo-compare]');
+      compare.textContent = option.dataset.compare;
+      compare.hidden = !option.dataset.compare;
+      root.querySelector('[data-lo-add-items]').dataset.loAddItems = option.value;
+      show(option.dataset.media);
+    };
+    select.addEventListener('change', update);
+    update();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product spotlight",
+  "class": "lo-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "text", "id": "anchor", "label": "Anchor for links", "default": "lo-shop", "info": "Link to this section with #lo-shop." },
+    { "type": "select", "id": "scheme", "label": "Background", "options": [
+      { "value": "white", "label": "White" }, { "value": "light", "label": "Light grey" }, { "value": "dark", "label": "Carbon" }
+    ], "default": "white" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New" },
+    { "type": "text", "id": "fallback_title", "label": "Title when no product is selected", "default": "Your product" },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "variant_label", "label": "Variant label", "default": "Choose your version" },
+    { "type": "text", "id": "button_label", "label": "Add to cart button", "default": "Add to cart" },
+    { "type": "text", "id": "details_label", "label": "Details button", "default": "Full details" }
+  ],
+  "blocks": [
+    { "type": "point", "name": "Key point", "settings": [
+      { "type": "text", "id": "text", "label": "Text", "default": "Free shipping across Europe over €50" }
+    ] }
+  ],
+  "presets": [{ "name": "Product spotlight" }]
+}
+{% endschema %}
