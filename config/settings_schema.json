@@ -1,7 +1,7 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Horizon",
+    "theme_name": "LEADOUT (Horizon)",
     "theme_version": "4.3.0",
     "theme_author": "Shopify",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
@@ -66,6 +66,57 @@
           "background": "#ffffff",
           "foreground": "#000000"
         }
+      }
+    ]
+  },
+  {
+    "name": "LEADOUT",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Brand"
+      },
+      {
+        "type": "color",
+        "id": "lo_accent",
+        "label": "Accent colour",
+        "default": "#FF5A1F",
+        "info": "Used for highlights, badges and the free-shipping bar."
+      },
+      {
+        "type": "color",
+        "id": "lo_graphite",
+        "label": "Graphite",
+        "default": "#1C1C1E"
+      },
+      {
+        "type": "color",
+        "id": "lo_light",
+        "label": "Light grey",
+        "default": "#F2F2F2"
+      },
+      {
+        "type": "checkbox",
+        "id": "lo_show_wordmark",
+        "label": "Show LEADOUT wordmark when no logo image is set",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Motion"
+      },
+      {
+        "type": "checkbox",
+        "id": "lo_scroll_reveal",
+        "label": "Fade and slide sections on scroll",
+        "default": true,
+        "info": "Turned off automatically for visitors who prefer reduced motion."
+      },
+      {
+        "type": "checkbox",
+        "id": "lo_image_zoom",
+        "label": "Soft zoom on image hover",
+        "default": true
       }
     ]
   },

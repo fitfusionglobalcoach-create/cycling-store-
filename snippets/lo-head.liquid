@@ -1,0 +1,14 @@
+{%- doc -%}
+  LEADOUT brand layer: CSS variables from the LEADOUT theme settings, brand stylesheet and motion script.
+{%- enddoc -%}
+<style>
+  :root {
+    --lo-accent: {{ settings.lo_accent }};
+    --lo-graphite: {{ settings.lo_graphite }};
+    --lo-light: {{ settings.lo_light }};
+  }
+</style>
+{{ 'lo-base.css' | asset_url | stylesheet_tag }}
+{%- if settings.lo_scroll_reveal or settings.lo_image_zoom -%}
+  <script src="{{ 'lo-motion.js' | asset_url }}" defer></script>
+{%- endif -%}

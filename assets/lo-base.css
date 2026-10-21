@@ -1,0 +1,52 @@
+/* LEADOUT brand layer on top of Horizon. Colours come from the LEADOUT theme settings. */
+
+.lo-logo {
+  display: block;
+  height: var(--header-logo-image-height, 36px);
+  width: auto;
+  color: currentColor;
+}
+@media screen and (max-width: 749px) {
+  .lo-logo { height: var(--header-logo-image-height-mobile, 28px); }
+}
+
+/* Technical, sharp headings */
+h1, h2, h3, .h1, .h2, .h3 { letter-spacing: 0.02em; }
+
+/* Accent helpers for LEADOUT sections */
+.lo-eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lo-accent);
+}
+.lo-accent { color: var(--lo-accent); }
+
+/* Scroll reveal (class added by lo-motion.js, so content stays visible without JS) */
+.lo-reveal-ready [data-lo-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.lo-reveal-ready [data-lo-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Soft image zoom */
+.lo-zoom-ready .product-card img,
+.lo-zoom-ready [data-lo-zoom] img {
+  transition: transform 0.6s ease;
+}
+.lo-zoom-ready .product-card:hover img,
+.lo-zoom-ready [data-lo-zoom]:hover img {
+  transform: scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lo-reveal-ready [data-lo-reveal] { opacity: 1; transform: none; transition: none; }
+  .lo-zoom-ready .product-card img,
+  .lo-zoom-ready [data-lo-zoom] img { transition: none; transform: none; }
+}

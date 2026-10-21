@@ -1,0 +1,28 @@
+{%- doc -%}
+  LEADOUT wordmark (placeholder). Uses currentColor so it follows the header colours.
+  Replace by uploading a logo in Theme settings > Logo and favicon.
+
+  @param {string} [class] - extra class names
+{%- enddoc -%}
+<svg
+  class="lo-logo{% if class %} {{ class }}{% endif %}"
+  viewBox="0 0 236 40"
+  role="img"
+  aria-label="{{ shop.name | escape }}"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g fill="var(--lo-accent, #FF5A1F)">
+    <polygon points="10,8 22,8 14,32 2,32" />
+    <polygon points="26,8 34,8 26,32 18,32" opacity=".7" />
+  </g>
+  <text
+    x="42"
+    y="32"
+    fill="currentColor"
+    font-family="Oswald, 'Barlow Condensed', 'Arial Narrow', sans-serif"
+    font-size="34"
+    font-weight="600"
+    letter-spacing="2"
+    font-style="italic"
+  >LEADOUT</text>
+</svg>
