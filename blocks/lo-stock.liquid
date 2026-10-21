@@ -1,0 +1,24 @@
+{%- liquid
+  assign variant = closest.product.selected_or_first_available_variant
+  assign show = false
+  if variant.inventory_management == 'shopify' and variant.inventory_quantity > 0 and variant.inventory_quantity < block.settings.threshold
+    assign show = true
+  endif
+-%}
+{%- if show -%}
+  <p class="lo-stock" {{ block.shopify_attributes }}>
+    <span class="lo-stock__dot" aria-hidden="true"></span>
+    {{ block.settings.message | replace: '[count]', variant.inventory_quantity }}
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LEADOUT low stock",
+  "settings": [
+    { "type": "range", "id": "threshold", "label": "Show when stock is below", "min": 2, "max": 20, "step": 1, "default": 5 },
+    { "type": "text", "id": "message", "label": "Message", "default": "Only [count] left", "info": "[count] is replaced with the stock." }
+  ],
+  "presets": [{ "name": "LEADOUT low stock" }]
+}
+{% endschema %}

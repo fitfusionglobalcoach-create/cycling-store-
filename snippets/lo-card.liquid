@@ -1,0 +1,52 @@
+{%- doc -%}
+  Lightweight LEADOUT product card used by the LEADOUT sections.
+
+  @param {object} product - the product
+  @param {boolean} [eager] - load the image eagerly (first row)
+{%- enddoc -%}
+{%- liquid
+  assign image = product.featured_media.preview_image
+  assign badge = product.metafields.custom.badge.value
+  assign loading = 'lazy'
+  if eager
+    assign loading = 'eager'
+  endif
+  if product.compare_at_price > product.price
+    assign saving = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round
+  endif
+-%}
+<article class="lo-card" {% render 'lo-compat-data', product: product %} data-lo-zoom>
+  <a href="{{ product.url }}" class="lo-card__link">
+    <div class="lo-card__media">
+      {%- if image -%}
+        {{
+          image
+          | image_url: width: 900
+          | image_tag:
+            widths: '300, 450, 600, 900',
+            sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+            loading: loading,
+            alt: image.alt | default: product.title
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'lo-placeholder' }}
+      {%- endif -%}
+      {%- if product.available == false or badge != blank or saving -%}
+        <div class="lo-card__badges">
+          {%- if badge != blank -%}<span class="lo-badge">{{ badge }}</span>{%- endif -%}
+          {%- if saving -%}<span class="lo-badge lo-badge--accent">-{{ saving }}%</span>{%- endif -%}
+          {%- if product.available == false -%}<span class="lo-badge lo-badge--muted">{{ 'content.product_badge_sold_out' | t }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="lo-card__info">
+      <h3 class="lo-card__title">{{ product.title }}</h3>
+      <p class="lo-card__price">
+        <span>{{ product.price | money }}</span>
+        {%- if product.compare_at_price > product.price -%}
+          <s class="lo-card__compare">{{ product.compare_at_price | money }}</s>
+        {%- endif -%}
+      </p>
+    </div>
+  </a>
+</article>

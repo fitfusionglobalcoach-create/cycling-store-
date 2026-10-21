@@ -14,22 +14,50 @@
     "header_announcements_9jGBFp": {
       "type": "header-announcements",
       "blocks": {
-        "announcement_BxgCk9": {
+        "announcement_0": {
           "type": "_announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Free shipping across Europe over €50",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
             "weight": "",
             "letter_spacing": "normal",
-            "case": "none"
+            "case": "uppercase"
+          },
+          "blocks": {}
+        },
+        "announcement_1": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Tested by a coach. Ridden before it's sold.",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "uppercase"
+          },
+          "blocks": {}
+        },
+        "announcement_2": {
+          "type": "_announcement",
+          "settings": {
+            "text": "30-day returns · 2-year warranty",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "uppercase"
           },
           "blocks": {}
         }
       },
       "block_order": [
-        "announcement_BxgCk9"
+        "announcement_0",
+        "announcement_1",
+        "announcement_2"
       ],
       "name": "t:names.announcement_bar",
       "settings": {

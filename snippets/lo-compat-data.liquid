@@ -1,0 +1,16 @@
+{%- doc -%}
+  Outputs the compatibility handles of a product as data attributes, used by lo-compat.js.
+
+  @param {object} product - the product
+{%- enddoc -%}
+{%- liquid
+  assign device_handles = ''
+  for device in product.metafields.custom.compatible_devices.value
+    assign device_handles = device_handles | append: device.system.handle | append: ' '
+  endfor
+  assign bar_handles = ''
+  for bar in product.metafields.custom.compatible_bars.value
+    assign bar_handles = bar_handles | append: bar.system.handle | append: ' '
+  endfor
+-%}
+data-lo-devices="{{ device_handles | strip }}" data-lo-bars="{{ bar_handles | strip }}"

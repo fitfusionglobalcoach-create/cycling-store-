@@ -1,0 +1,26 @@
+{%- liquid
+  assign variant = closest.product.selected_or_first_available_variant
+  if variant.compare_at_price > variant.price
+    assign saving = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round
+    assign saved_amount = variant.compare_at_price | minus: variant.price | money
+  endif
+-%}
+{%- if saving -%}
+  <p class="lo-savings" {{ block.shopify_attributes }}>
+    <span class="lo-badge lo-badge--accent">-{{ saving }}%</span>
+    {%- if block.settings.show_amount -%}
+      <span>{{ block.settings.message | replace: '[amount]', saved_amount }}</span>
+    {%- endif -%}
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LEADOUT discount badge",
+  "settings": [
+    { "type": "checkbox", "id": "show_amount", "label": "Show amount saved", "default": true },
+    { "type": "text", "id": "message", "label": "Message", "default": "You save [amount]" }
+  ],
+  "presets": [{ "name": "LEADOUT discount badge" }]
+}
+{% endschema %}

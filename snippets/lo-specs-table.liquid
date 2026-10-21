@@ -1,0 +1,27 @@
+{%- doc -%}
+  Spec table from product metafields.
+
+  @param {object} product - the product
+  @param {object} labels - block settings holding the row labels
+{%- enddoc -%}
+{%- liquid
+  assign m = product.metafields.custom
+  assign device_names = ''
+  for device in m.compatible_devices.value
+    assign device_names = device_names | append: device.brand.value | append: ' ' | append: device.model.value | append: ', '
+  endfor
+  assign bar_names = ''
+  for bar in m.compatible_bars.value
+    assign bar_names = bar_names | append: bar.name.value | append: ', '
+  endfor
+-%}
+<table class="lo-specs">
+  <tbody>
+    {%- if m.material != blank -%}<tr><th scope="row">{{ labels.label_material }}</th><td>{{ m.material }}</td></tr>{%- endif -%}
+    {%- if m.weight_g != blank -%}<tr><th scope="row">{{ labels.label_weight }}</th><td>{{ m.weight_g }} g</td></tr>{%- endif -%}
+    {%- if bar_names != blank -%}<tr><th scope="row">{{ labels.label_bars }}</th><td>{{ bar_names | remove_last: ', ' }}</td></tr>{%- endif -%}
+    {%- if device_names != blank -%}<tr><th scope="row">{{ labels.label_devices }}</th><td>{{ device_names | remove_last: ', ' }}</td></tr>{%- endif -%}
+    {%- if m.bolts_included != blank -%}<tr><th scope="row">{{ labels.label_bolts }}</th><td>{{ m.bolts_included }}</td></tr>{%- endif -%}
+    {%- if m.in_the_box != blank -%}<tr><th scope="row">{{ labels.label_box }}</th><td>{{ m.in_the_box | newline_to_br }}</td></tr>{%- endif -%}
+  </tbody>
+</table>

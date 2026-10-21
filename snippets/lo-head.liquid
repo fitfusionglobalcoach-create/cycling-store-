@@ -9,6 +9,8 @@
   }
 </style>
 {{ 'lo-base.css' | asset_url | stylesheet_tag }}
+{{ 'lo-sections.css' | asset_url | stylesheet_tag }}
+<script type="module" src="{{ 'lo-cart.js' | asset_url }}"></script>
 {%- if settings.lo_scroll_reveal or settings.lo_image_zoom -%}
-  <script src="{{ 'lo-motion.js' | asset_url }}" defer></script>
+  <script src="{{ 'lo-motion.js' | asset_url }}" data-reveal="{{ settings.lo_scroll_reveal }}" data-zoom="{{ settings.lo_image_zoom }}" defer></script>
 {%- endif -%}

@@ -1,0 +1,57 @@
+{%- liquid
+  assign country = localization.country.iso_code
+  assign transit = settings.lo_transit_days_default
+  assign pairs = settings.lo_transit_days_by_country | remove: ' ' | split: ','
+  for pair in pairs
+    assign parts = pair | split: ':'
+    if parts[0] == country
+      assign transit = parts[1] | plus: 0
+    endif
+  endfor
+  assign min_days = settings.lo_processing_days | plus: transit
+  assign max_days = min_days | plus: block.settings.range_days
+
+  assign day_seconds = 86400
+  assign cursor = 'now' | date: '%s' | plus: 0
+  assign counted = 0
+  assign min_date = ''
+  assign max_date = ''
+  for i in (1..40)
+    assign cursor = cursor | plus: day_seconds
+    assign weekday = cursor | date: '%u' | plus: 0
+    if weekday < 6
+      assign counted = counted | plus: 1
+      if counted == min_days
+        assign min_date = cursor
+      endif
+      if counted == max_days
+        assign max_date = cursor
+        break
+      endif
+    endif
+  endfor
+-%}
+{%- if max_date != blank -%}
+  <p class="lo-delivery" {{ block.shopify_attributes }}>
+    {% render 'lo-icon', name: 'shipping' %}
+    <span>
+      {{ block.settings.message }}
+      <strong>{{ min_date | date: block.settings.date_format }}{% if max_date != min_date %} – {{ max_date | date: block.settings.date_format }}{% endif %}</strong>
+    </span>
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LEADOUT delivery estimate",
+  "settings": [
+    { "type": "paragraph", "content": "Processing and transit days by country are set in Theme settings › LEADOUT." },
+    { "type": "text", "id": "message", "label": "Message", "default": "Order today, delivered" },
+    { "type": "range", "id": "range_days", "label": "Extra days for the range", "min": 0, "max": 5, "step": 1, "default": 2 },
+    { "type": "select", "id": "date_format", "label": "Date format", "options": [
+      { "value": "%a %e %b", "label": "Mon 3 Nov" }, { "value": "%e %b", "label": "3 Nov" }
+    ], "default": "%a %e %b" }
+  ],
+  "presets": [{ "name": "LEADOUT delivery estimate" }]
+}
+{% endschema %}

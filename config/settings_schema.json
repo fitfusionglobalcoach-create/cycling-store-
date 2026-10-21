@@ -117,6 +117,97 @@
         "id": "lo_image_zoom",
         "label": "Soft zoom on image hover",
         "default": true
+      },
+      {
+        "type": "header",
+        "content": "Shipping and cart"
+      },
+      {
+        "type": "number",
+        "id": "lo_free_shipping_threshold",
+        "label": "Free shipping threshold (€)",
+        "default": 50
+      },
+      {
+        "type": "text",
+        "id": "lo_free_shipping_progress",
+        "label": "Progress message",
+        "default": "You're [amount] away from free shipping",
+        "info": "[amount] is replaced with the remaining value."
+      },
+      {
+        "type": "text",
+        "id": "lo_free_shipping_done",
+        "label": "Unlocked message",
+        "default": "You've unlocked free shipping"
+      },
+      {
+        "type": "product",
+        "id": "lo_cart_upsell",
+        "label": "Cart upsell product"
+      },
+      {
+        "type": "text",
+        "id": "lo_cart_upsell_heading",
+        "label": "Cart upsell heading",
+        "default": "Complete your cockpit"
+      },
+      {
+        "type": "text",
+        "id": "lo_cart_upsell_button",
+        "label": "Cart upsell button",
+        "default": "Add"
+      },
+      {
+        "type": "header",
+        "content": "Delivery estimate"
+      },
+      {
+        "type": "range",
+        "id": "lo_processing_days",
+        "label": "Processing days",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "lo_transit_days_default",
+        "label": "Transit days (default)",
+        "min": 1,
+        "max": 20,
+        "step": 1,
+        "default": 5
+      },
+      {
+        "type": "text",
+        "id": "lo_transit_days_by_country",
+        "label": "Transit days by country",
+        "default": "PT:2, ES:3, FR:4, DE:4, IT:5, NL:4, BE:4",
+        "info": "Country code and business days, separated by commas."
+      },
+      {
+        "type": "header",
+        "content": "Compatibility"
+      },
+      {
+        "type": "text",
+        "id": "lo_fits_yes",
+        "label": "Fits message",
+        "default": "Fits your setup"
+      },
+      {
+        "type": "text",
+        "id": "lo_fits_no",
+        "label": "Does not fit message",
+        "default": "Not compatible with your saved setup"
+      },
+      {
+        "type": "text",
+        "id": "lo_fits_unknown",
+        "label": "No setup saved message",
+        "default": "Check if it fits your bike"
       }
     ]
   },

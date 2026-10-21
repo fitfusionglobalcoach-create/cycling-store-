@@ -1,0 +1,22 @@
+{%- assign product = closest.product -%}
+<div class="lo-block lo-block--specs" {{ block.shopify_attributes }}>
+  {%- if block.settings.heading != blank -%}<h3 class="lo-block__title">{{ block.settings.heading }}</h3>{%- endif -%}
+  {% render 'lo-specs-table', product: product, labels: block.settings %}
+</div>
+
+{% schema %}
+{
+  "name": "LEADOUT specs",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Specs" },
+    { "type": "header", "content": "Spec labels" },
+    { "type": "text", "id": "label_material", "label": "Material", "default": "Material" },
+    { "type": "text", "id": "label_weight", "label": "Weight", "default": "Weight" },
+    { "type": "text", "id": "label_bars", "label": "Handlebar", "default": "Handlebar diameter" },
+    { "type": "text", "id": "label_devices", "label": "Devices", "default": "Compatible devices" },
+    { "type": "text", "id": "label_bolts", "label": "Bolts", "default": "Bolts included" },
+    { "type": "text", "id": "label_box", "label": "In the box", "default": "In the box" }
+  ],
+  "presets": [{ "name": "LEADOUT specs" }]
+}
+{% endschema %}

@@ -1,0 +1,65 @@
+{%- liquid
+  assign s = section.settings
+  assign total = 0
+  assign variant_ids = ''
+  for product in s.products
+    assign total = total | plus: product.price
+    assign variant_ids = variant_ids | append: product.selected_or_first_available_variant.id | append: ','
+  endfor
+  assign bundle_price = 100 | minus: s.discount | times: total | divided_by: 100
+-%}
+<section class="lo-bundle lo-scheme-{{ s.scheme }}">
+  <div class="lo-wrap lo-bundle__inner">
+    <div class="lo-bundle__media" data-lo-reveal>
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', alt: s.image.alt | default: s.heading }}
+      {%- else -%}
+        {{ 'product-2' | placeholder_svg_tag: 'lo-placeholder' }}
+      {%- endif -%}
+    </div>
+    <div class="lo-bundle__content" data-lo-reveal>
+      {%- if s.eyebrow != blank -%}<p class="lo-eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+      <h2>{{ s.heading }}</h2>
+      {%- if s.text != blank -%}<div class="lo-rte">{{ s.text }}</div>{%- endif -%}
+      {%- if s.products.size > 0 -%}
+        <ul class="lo-bundle__items">
+          {%- for product in s.products -%}
+            <li><span>{{ product.title }}</span><span>{{ product.price | money }}</span></li>
+          {%- endfor -%}
+        </ul>
+        <p class="lo-bundle__price">
+          <span class="lo-bundle__now">{{ bundle_price | money }}</span>
+          {%- if s.discount > 0 -%}
+            <s>{{ total | money }}</s>
+            <span class="lo-badge lo-badge--accent">-{{ s.discount }}%</span>
+          {%- endif -%}
+        </p>
+        <button type="button" class="lo-btn lo-btn--accent" data-lo-add-items="{{ variant_ids | remove_last: ',' }}">{{ s.button_label }}</button>
+        {%- if s.note != blank -%}<p class="lo-note">{{ s.note }}</p>{%- endif -%}
+      {%- elsif request.design_mode -%}
+        <p class="lo-note">Pick the bundle products in the section settings.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bundle offer",
+  "class": "lo-section",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Background", "options": [
+      { "value": "dark", "label": "Carbon" }, { "value": "light", "label": "Light grey" }, { "value": "white", "label": "White" }
+    ], "default": "dark" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Bundle" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Complete Cockpit" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Computer mount, camera adapter and light adapter. One clean line, everything in reach.</p>" },
+    { "type": "product_list", "id": "products", "label": "Bundle products", "limit": 4 },
+    { "type": "range", "id": "discount", "label": "Bundle discount shown", "min": 0, "max": 40, "step": 1, "unit": "%", "default": 15, "info": "Create a matching automatic discount in Discounts so checkout applies it." },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Add the bundle" },
+    { "type": "text", "id": "note", "label": "Note under button", "default": "Discount applied at checkout." }
+  ],
+  "presets": [{ "name": "Bundle offer" }]
+}
+{% endschema %}

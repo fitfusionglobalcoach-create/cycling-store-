@@ -1,10 +1,13 @@
 // LEADOUT motion: scroll reveal for [data-lo-reveal] and hover zoom. Off for reduced motion.
 (() => {
+  if (window.loMotion) return;
+  window.loMotion = true;
+  const options = document.currentScript?.dataset || {};
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const root = document.documentElement;
-  root.classList.add('lo-zoom-ready');
+  if (options.zoom !== 'false') root.classList.add('lo-zoom-ready');
 
-  if (!('IntersectionObserver' in window)) return;
+  if (options.reveal === 'false' || !('IntersectionObserver' in window)) return;
   root.classList.add('lo-reveal-ready');
   const observer = new IntersectionObserver(
     (entries) => {

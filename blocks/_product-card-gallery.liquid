@@ -2,7 +2,13 @@
 
 {% capture children %}
   {% unless product == blank %}
-    {%- if product.available == false or product.compare_at_price > product.price -%}
+    {%- liquid
+      assign lo_badge = product.metafields.custom.badge.value
+      if product.compare_at_price > product.price
+        assign lo_saving = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round
+      endif
+    -%}
+    {%- if product.available == false or product.compare_at_price > product.price or lo_badge != blank -%}
       <div
         class="product-badges product-badges--{{ settings.badge_position }}"
         style="
@@ -10,18 +16,23 @@
             --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
         "
       >
-        <div
-          class="
-            product-badges__badge product-badges__badge--rectangle
-            {% if product.available == false %} color-custom-badge-sold-out{% elsif product.compare_at_price > product.price %} color-custom-badge-sale{% endif %}
-          "
-        >
-          {%- if product.available == false -%}
-            {{ 'content.product_badge_sold_out' | t }}
-          {%- elsif product.compare_at_price > product.price -%}
-            {{ 'content.product_badge_sale' | t }}
-          {%- endif -%}
-        </div>
+        {%- if lo_badge != blank and product.available -%}
+          <div class="product-badges__badge product-badges__badge--rectangle lo-badge">{{ lo_badge }}</div>
+        {%- endif -%}
+        {%- if product.available == false or product.compare_at_price > product.price -%}
+          <div
+            class="
+              product-badges__badge product-badges__badge--rectangle
+              {% if product.available == false %} color-custom-badge-sold-out{% elsif product.compare_at_price > product.price %} color-custom-badge-sale lo-badge--accent{% endif %}
+            "
+          >
+            {%- if product.available == false -%}
+              {{ 'content.product_badge_sold_out' | t }}
+            {%- elsif product.compare_at_price > product.price -%}
+              -{{ lo_saving }}%
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
     {%- endif -%}
     {% if product.available and settings.quick_add or settings.mobile_quick_add %}

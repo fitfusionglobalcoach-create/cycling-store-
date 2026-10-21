@@ -1,0 +1,41 @@
+{%- assign s = section.settings -%}
+<section class="lo-newsletter lo-scheme-{{ s.scheme }}">
+  <div class="lo-wrap lo-newsletter__inner" data-lo-reveal>
+    {%- if s.eyebrow != blank -%}<p class="lo-eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+    <h2>{{ s.heading }}</h2>
+    {%- if s.text != blank -%}<div class="lo-rte">{{ s.text }}</div>{%- endif -%}
+    {%- form 'customer', id: 'lo-newsletter-form', class: 'lo-newsletter__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      {%- if form.posted_successfully? -%}
+        <p class="lo-newsletter__success" role="status">{{ s.success }}{% if s.code != blank %} <strong>{{ s.code }}</strong>{% endif %}</p>
+      {%- else -%}
+        <label for="lo-newsletter-email" class="visually-hidden">{{ s.placeholder }}</label>
+        <input id="lo-newsletter-email" type="email" name="contact[email]" required autocomplete="email" placeholder="{{ s.placeholder | escape }}">
+        <button type="submit" class="lo-btn lo-btn--accent">{{ s.button_label }}</button>
+        {%- if form.errors -%}<p class="lo-note" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+      {%- endif -%}
+    {%- endform -%}
+    {%- if s.legal != blank -%}<p class="lo-note">{{ s.legal }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "class": "lo-section",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Background", "options": [
+      { "value": "light", "label": "Light grey" }, { "value": "dark", "label": "Carbon" }, { "value": "white", "label": "White" }
+    ], "default": "light" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Join the bunch" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "10% off your first order" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>New drops, setup tips from a coach and rider-only offers. No spam.</p>" },
+    { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Your email" },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Get 10% off" },
+    { "type": "text", "id": "success", "label": "Success message", "default": "You're in. Your code:" },
+    { "type": "text", "id": "code", "label": "Welcome discount code", "default": "WELCOME10", "info": "Create this code in Discounts." },
+    { "type": "text", "id": "legal", "label": "Small print", "default": "By subscribing you agree to receive marketing emails. Unsubscribe anytime." }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

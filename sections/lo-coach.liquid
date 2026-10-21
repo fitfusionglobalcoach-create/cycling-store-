@@ -1,0 +1,45 @@
+{%- assign s = section.settings -%}
+<section class="lo-coach lo-scheme-{{ s.scheme }}">
+  <div class="lo-wrap lo-coach__inner">
+    <div class="lo-coach__media" data-lo-reveal>
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1200 | image_tag: widths: '450, 750, 1000, 1200', sizes: '(min-width: 990px) 45vw, 100vw', loading: 'lazy', alt: s.image.alt | default: s.name }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'lo-placeholder' }}
+      {%- endif -%}
+    </div>
+    <div class="lo-coach__content" data-lo-reveal>
+      {%- if s.eyebrow != blank -%}<p class="lo-eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+      <h2>{{ s.heading }}</h2>
+      {%- if s.text != blank -%}<div class="lo-rte">{{ s.text }}</div>{%- endif -%}
+      {%- if s.quote != blank -%}
+        <blockquote class="lo-coach__quote">
+          <p>{{ s.quote }}</p>
+          {%- if s.name != blank -%}<cite>{{ s.name }}</cite>{%- endif -%}
+        </blockquote>
+      {%- endif -%}
+      {%- if s.button_label != blank -%}<a href="{{ s.button_link }}" class="lo-btn lo-btn--ghost">{{ s.button_label }}</a>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Tested by a coach",
+  "class": "lo-section",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Background", "options": [
+      { "value": "white", "label": "White" }, { "value": "light", "label": "Light grey" }, { "value": "dark", "label": "Carbon" }
+    ], "default": "white" },
+    { "type": "image_picker", "id": "image", "label": "Photo" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Tested by a coach" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Ridden hard before it reaches you" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>LEADOUT is run by a cycling coach. Every mount is tested on training rides, intervals and race days before it goes on sale.</p>" },
+    { "type": "textarea", "id": "quote", "label": "Quote", "default": "If it rattles, slips or blocks my screen on a sprint, it doesn't make the cut." },
+    { "type": "text", "id": "name", "label": "Name", "default": "António Mateus, cycling coach and founder" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Our story" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Tested by a coach" }]
+}
+{% endschema %}

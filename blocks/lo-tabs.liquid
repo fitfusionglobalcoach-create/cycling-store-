@@ -1,0 +1,48 @@
+{%- liquid
+  assign product = closest.product
+  assign s = block.settings
+  assign uid = block.id
+-%}
+<div class="lo-tabs" data-lo-tabs {{ block.shopify_attributes }}>
+  <div class="lo-tabs__list" role="tablist">
+    <button type="button" role="tab" id="lo-tab-{{ uid }}-1" aria-controls="lo-panel-{{ uid }}-1" aria-selected="true">{{ s.tab_description }}</button>
+    <button type="button" role="tab" id="lo-tab-{{ uid }}-2" aria-controls="lo-panel-{{ uid }}-2" aria-selected="false" tabindex="-1">{{ s.tab_specs }}</button>
+    <button type="button" role="tab" id="lo-tab-{{ uid }}-3" aria-controls="lo-panel-{{ uid }}-3" aria-selected="false" tabindex="-1">{{ s.tab_installation }}</button>
+    <button type="button" role="tab" id="lo-tab-{{ uid }}-4" aria-controls="lo-panel-{{ uid }}-4" aria-selected="false" tabindex="-1">{{ s.tab_shipping }}</button>
+  </div>
+  <div class="lo-tabs__panel lo-rte" role="tabpanel" id="lo-panel-{{ uid }}-1" aria-labelledby="lo-tab-{{ uid }}-1">
+    {{ product.description }}
+  </div>
+  <div class="lo-tabs__panel" role="tabpanel" id="lo-panel-{{ uid }}-2" aria-labelledby="lo-tab-{{ uid }}-2" hidden>
+    {% render 'lo-specs-table', product: product, labels: s %}
+  </div>
+  <div class="lo-tabs__panel lo-rte" role="tabpanel" id="lo-panel-{{ uid }}-3" aria-labelledby="lo-tab-{{ uid }}-3" hidden>
+    {{ product.metafields.custom.installation | metafield_tag | default: s.installation_fallback }}
+  </div>
+  <div class="lo-tabs__panel lo-rte" role="tabpanel" id="lo-panel-{{ uid }}-4" aria-labelledby="lo-tab-{{ uid }}-4" hidden>
+    {{ s.shipping_text }}
+  </div>
+</div>
+<script src="{{ 'lo-tabs.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "LEADOUT tabs",
+  "settings": [
+    { "type": "text", "id": "tab_description", "label": "Tab 1", "default": "Description" },
+    { "type": "text", "id": "tab_specs", "label": "Tab 2", "default": "Specs" },
+    { "type": "text", "id": "tab_installation", "label": "Tab 3", "default": "Installation" },
+    { "type": "text", "id": "tab_shipping", "label": "Tab 4", "default": "Shipping & Returns" },
+    { "type": "richtext", "id": "installation_fallback", "label": "Installation text when the product has none", "default": "<p>Mounts in under 2 minutes with the included hex key. Torque to the value printed on the clamp.</p>" },
+    { "type": "richtext", "id": "shipping_text", "label": "Shipping & Returns text", "default": "<p>Free shipping across Europe on orders over €50. Dispatched in 1 business day.</p><p>30-day returns on unused products. 2-year warranty.</p>" },
+    { "type": "header", "content": "Spec labels" },
+    { "type": "text", "id": "label_material", "label": "Material", "default": "Material" },
+    { "type": "text", "id": "label_weight", "label": "Weight", "default": "Weight" },
+    { "type": "text", "id": "label_bars", "label": "Handlebar", "default": "Handlebar diameter" },
+    { "type": "text", "id": "label_devices", "label": "Devices", "default": "Compatible devices" },
+    { "type": "text", "id": "label_bolts", "label": "Bolts", "default": "Bolts included" },
+    { "type": "text", "id": "label_box", "label": "In the box", "default": "In the box" }
+  ],
+  "presets": [{ "name": "LEADOUT tabs" }]
+}
+{% endschema %}

@@ -91,7 +91,10 @@
     "lo_light": "#F2F2F2",
     "lo_show_wordmark": true,
     "lo_scroll_reveal": true,
-    "lo_image_zoom": true
+    "lo_image_zoom": true,
+    "lo_free_shipping_threshold": 50,
+    "lo_processing_days": 1,
+    "lo_transit_days_default": 5
   },
   "presets": {
     "Default": {

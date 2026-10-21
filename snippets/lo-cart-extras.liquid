@@ -1,0 +1,46 @@
+{%- doc -%}
+  Free-shipping progress bar and one upsell product for the cart drawer.
+{%- enddoc -%}
+{%- liquid
+  assign threshold = settings.lo_free_shipping_threshold | times: 100
+  assign remaining = threshold | minus: cart.total_price
+  assign remaining_money = remaining | money
+  assign progress = cart.total_price | times: 100 | divided_by: threshold | at_most: 100
+  assign upsell = settings.lo_cart_upsell
+  assign upsell_in_cart = false
+  for item in cart.items
+    if item.product_id == upsell.id
+      assign upsell_in_cart = true
+    endif
+  endfor
+-%}
+{%- if threshold > 0 -%}
+  <div class="lo-ship">
+    <p class="lo-ship__msg">
+      {%- if remaining > 0 -%}
+        {{ settings.lo_free_shipping_progress | replace: '[amount]', remaining_money }}
+      {%- else -%}
+        ✔ {{ settings.lo_free_shipping_done }}
+      {%- endif -%}
+    </p>
+    <div class="lo-ship__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ progress }}">
+      <span style="width: {{ progress }}%"></span>
+    </div>
+  </div>
+{%- endif -%}
+{%- if upsell != blank and upsell.available and upsell_in_cart == false -%}
+  {%- assign upsell_variant = upsell.selected_or_first_available_variant -%}
+  <div class="lo-upsell">
+    <p class="lo-upsell__heading">{{ settings.lo_cart_upsell_heading }}</p>
+    <div class="lo-upsell__row">
+      {%- if upsell.featured_media -%}
+        {{ upsell.featured_media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', width: 64, height: 64, class: 'lo-upsell__img', alt: upsell.featured_media.alt | default: upsell.title }}
+      {%- endif -%}
+      <div class="lo-upsell__info">
+        <a href="{{ upsell.url }}">{{ upsell.title }}</a>
+        <span>{{ upsell_variant.price | money }}</span>
+      </div>
+      <button type="button" class="lo-btn lo-btn--small" data-lo-add-items="{{ upsell_variant.id }}">{{ settings.lo_cart_upsell_button }}</button>
+    </div>
+  </div>
+{%- endif -%}

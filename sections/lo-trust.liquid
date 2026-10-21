@@ -1,0 +1,57 @@
+{%- assign s = section.settings -%}
+<section class="lo-trust lo-scheme-{{ s.scheme }}">
+  <div class="lo-wrap">
+    <ul class="lo-trust__list">
+      {%- for block in section.blocks -%}
+        <li class="lo-trust__item" {{ block.shopify_attributes }}>
+          {% render 'lo-icon', name: block.settings.icon %}
+          <div>
+            <p class="lo-trust__title">{{ block.settings.title }}</p>
+            {%- if block.settings.text != blank -%}<p class="lo-trust__text">{{ block.settings.text }}</p>{%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+    {%- if s.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+      <ul class="lo-trust__payments" aria-label="{{ s.payments_label | escape }}">
+        {%- for type in shop.enabled_payment_types -%}
+          <li>{{ type | payment_type_svg_tag: class: 'lo-pay' }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust strip",
+  "class": "lo-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Background", "options": [
+      { "value": "light", "label": "Light grey" }, { "value": "white", "label": "White" }, { "value": "dark", "label": "Carbon" }
+    ], "default": "light" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+    { "type": "text", "id": "payments_label", "label": "Payment icons label (screen readers)", "default": "Accepted payment methods" }
+  ],
+  "blocks": [
+    { "type": "item", "name": "Item", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "options": [
+        { "value": "shipping", "label": "Shipping" }, { "value": "secure", "label": "Secure payment" },
+        { "value": "returns", "label": "Returns" }, { "value": "warranty", "label": "Warranty" }, { "value": "coach", "label": "Bike" }
+      ], "default": "shipping" },
+      { "type": "text", "id": "title", "label": "Title", "default": "Fast shipping across Europe" },
+      { "type": "text", "id": "text", "label": "Text" }
+    ] }
+  ],
+  "presets": [{
+    "name": "Trust strip",
+    "blocks": [
+      { "type": "item", "settings": { "icon": "shipping", "title": "Fast shipping across Europe", "text": "Free over €50" } },
+      { "type": "item", "settings": { "icon": "secure", "title": "Secure payment", "text": "Card, Apple Pay, Google Pay, PayPal, Klarna" } },
+      { "type": "item", "settings": { "icon": "returns", "title": "30-day returns", "text": "Not right? Send it back." } },
+      { "type": "item", "settings": { "icon": "warranty", "title": "2-year warranty", "text": "Built to last, guaranteed." } }
+    ]
+  }]
+}
+{% endschema %}

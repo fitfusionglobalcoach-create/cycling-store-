@@ -1,0 +1,85 @@
+{%- liquid
+  assign s = section.settings
+  assign loading = 'lazy'
+  assign priority = 'auto'
+  if section.index == 1 or section.index == 2
+    assign loading = 'eager'
+    assign priority = 'high'
+  endif
+-%}
+<section class="lo-hero lo-hero--{{ s.height }} lo-hero--{{ s.align }}" style="--lo-overlay: {{ s.overlay | divided_by: 100.0 }};">
+  <div class="lo-hero__media">
+    {%- if s.video != blank -%}
+      {{ s.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1920x', class: 'lo-hero__video' }}
+    {%- elsif s.image != blank -%}
+      {{
+        s.image
+        | image_url: width: 2400
+        | image_tag:
+          widths: '600, 900, 1200, 1600, 2000, 2400',
+          sizes: '100vw',
+          loading: loading,
+          fetchpriority: priority,
+          class: 'lo-hero__img lo-hero__img--desktop',
+          alt: s.image.alt
+      }}
+      {%- if s.image_mobile != blank -%}
+        {{
+          s.image_mobile
+          | image_url: width: 1200
+          | image_tag:
+            widths: '450, 750, 1000, 1200',
+            sizes: '100vw',
+            loading: loading,
+            class: 'lo-hero__img lo-hero__img--mobile',
+            alt: s.image_mobile.alt
+        }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'lo-hero__img lo-placeholder' }}
+    {%- endif -%}
+  </div>
+  <div class="lo-hero__content" data-lo-reveal>
+    {%- if s.eyebrow != blank -%}<p class="lo-eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+    {%- if s.heading != blank -%}<h1 class="lo-hero__heading">{{ s.heading }}</h1>{%- endif -%}
+    {%- if s.text != blank -%}<div class="lo-hero__text">{{ s.text }}</div>{%- endif -%}
+    <div class="lo-hero__buttons">
+      {%- if s.button_1_label != blank -%}
+        <a href="{{ s.button_1_link | default: routes.all_products_collection_url }}" class="lo-btn lo-btn--accent">{{ s.button_1_label }}</a>
+      {%- endif -%}
+      {%- if s.button_2_label != blank -%}
+        <a href="{{ s.button_2_link | default: '#lo-finder' }}" class="lo-btn lo-btn--ghost">{{ s.button_2_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LEADOUT hero",
+  "class": "lo-section",
+  "settings": [
+    { "type": "video", "id": "video", "label": "Background video", "info": "Optional. Plays muted on loop. Overrides the image." },
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image (portrait)" },
+    { "type": "range", "id": "overlay", "label": "Dark overlay", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 35 },
+    { "type": "select", "id": "height", "label": "Height", "options": [
+      { "value": "full", "label": "Full screen" },
+      { "value": "large", "label": "Large" },
+      { "value": "medium", "label": "Medium" }
+    ], "default": "full" },
+    { "type": "select", "id": "align", "label": "Content position", "options": [
+      { "value": "bottom-left", "label": "Bottom left" },
+      { "value": "center", "label": "Center" }
+    ], "default": "bottom-left" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Tested by a coach" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Built for the fast ones." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Precision handlebar mounts for Garmin, Wahoo, Hammerhead, GoPro and lights. Clean cockpit, zero rattle.</p>" },
+    { "type": "text", "id": "button_1_label", "label": "Button 1 label", "default": "Shop mounts" },
+    { "type": "url", "id": "button_1_link", "label": "Button 1 link" },
+    { "type": "text", "id": "button_2_label", "label": "Button 2 label", "default": "Find your fit" },
+    { "type": "url", "id": "button_2_link", "label": "Button 2 link", "info": "Leave empty to jump to the compatibility checker." }
+  ],
+  "presets": [{ "name": "LEADOUT hero" }]
+}
+{% endschema %}
