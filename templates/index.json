@@ -12,81 +12,68 @@
     "hero": {
       "type": "lo-hero",
       "settings": {
+        "video": "shopify://files/videos/organizador_recortado.mp4",
+        "image": "shopify://shop_images/Screenshot_2026-10-21_at_21.27.29.png",
+        "overlay": 35,
         "height": "full",
         "align": "bottom-left",
-        "overlay": 35,
         "eyebrow": "Tested by a coach",
         "heading": "Built for the fast ones.",
         "text": "<p>Helmet, glasses, lights and shoes on one wall. Grab your kit and ride.</p>",
         "button_1_label": "Shop now",
-        "button_2_label": "See details",
         "button_1_link": "#lo-shop",
+        "button_2_label": "See details",
         "button_2_link": "shopify://products/gear-wall"
       }
     },
-    "details": {
-      "type": "product-hotspots",
-      "settings": {
-        "section_width": "page-width",
-        "product_title_gap": 8,
-        "padding-block-start": 40,
-        "padding-block-end": 40
-      },
+    "spotlight": {
+      "type": "lo-spotlight",
       "blocks": {
-        "heading": {
-          "type": "text",
-          "static": true,
+        "p1": {
+          "type": "point",
           "settings": {
-            "text": "<p>Engineered in the details</p>",
-            "type_preset": "h3"
+            "text": "Fits helmet, glasses, light, computer and shoes"
           }
         },
-        "hotspot-1": {
-          "type": "_hotspot-product",
+        "p2": {
+          "type": "point",
           "settings": {
-            "x-position": 35,
-            "y-position": 40,
-            "product": "gear-wall"
+            "text": "Screw-in or no-drill adhesive"
           }
         },
-        "hotspot-2": {
-          "type": "_hotspot-product",
+        "p3": {
+          "type": "point",
           "settings": {
-            "x-position": 60,
-            "y-position": 55,
-            "product": "gear-wall"
+            "text": "Free shipping across Europe over €50"
           }
         },
-        "hotspot-3": {
-          "type": "_hotspot-product",
+        "p4": {
+          "type": "point",
           "settings": {
-            "x-position": 50,
-            "y-position": 75,
-            "product": "gear-wall"
+            "text": "30-day returns"
           }
         }
       },
       "block_order": [
-        "hotspot-1",
-        "hotspot-2",
-        "hotspot-3"
-      ]
-    },
-    "coach": {
-      "type": "lo-coach",
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
       "settings": {
+        "product": "gear-wall",
+        "anchor": "lo-shop",
         "scheme": "white",
-        "text": "<p>LEADOUT is run by a cycling coach. Everything we sell is used at home and on the bike before it goes on sale.</p>",
-        "quote": "Ten minutes looking for a glove is ten minutes not riding. Everything should have its place.",
-        "button_label": ""
+        "eyebrow": "New",
+        "fallback_title": "Your product",
+        "text": "<p>One rail, four zones: helmet on top, glasses below, a tray for your light, computer and gloves, and two hooks for your shoes. Screw it in or stick it on, no drilling needed.</p>",
+        "variant_label": "Choose your version",
+        "button_label": "Add to cart",
+        "details_label": "Full details"
       }
     },
     "trust": {
       "type": "lo-trust",
-      "settings": {
-        "scheme": "light",
-        "show_payment_icons": true
-      },
       "blocks": {
         "t1": {
           "type": "item",
@@ -126,63 +113,128 @@
         "t2",
         "t3",
         "t4"
-      ]
+      ],
+      "settings": {
+        "scheme": "light",
+        "show_payment_icons": true,
+        "payments_label": "Accepted payment methods"
+      }
+    },
+    "details": {
+      "type": "product-hotspots",
+      "blocks": {
+        "hotspot-1": {
+          "type": "_hotspot-product",
+          "settings": {
+            "product": "gear-wall",
+            "x-position": 35,
+            "y-position": 40
+          },
+          "blocks": {}
+        },
+        "hotspot-2": {
+          "type": "_hotspot-product",
+          "settings": {
+            "product": "gear-wall",
+            "x-position": 60,
+            "y-position": 55
+          },
+          "blocks": {}
+        },
+        "hotspot-3": {
+          "type": "_hotspot-product",
+          "settings": {
+            "product": "gear-wall",
+            "x-position": 50,
+            "y-position": 75
+          },
+          "blocks": {}
+        },
+        "heading": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<p>Engineered in the details</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h3",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "hotspot-1",
+        "hotspot-2",
+        "hotspot-3"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Screenshot_2026-10-21_at_21.27.29.png",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "section_width": "page-width",
+        "section_height": "auto",
+        "hotspot_color": "#ffffff57",
+        "bullseye_color": "#ffffff",
+        "background_color": "",
+        "product_title_gap": 8,
+        "product_title_preset": "",
+        "product_price_preset": "",
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
+    "coach": {
+      "type": "lo-coach",
+      "settings": {
+        "scheme": "white",
+        "image": "shopify://shop_images/lo-gear-wall-lifestyle_1.jpg",
+        "eyebrow": "Tested by a coach",
+        "heading": "Ridden hard before it reaches you",
+        "text": "<p>LEADOUT is run by a cycling coach. Everything we sell is used at home and on the bike before it goes on sale.</p>",
+        "quote": "Ten minutes looking for a glove is ten minutes not riding. Everything should have its place.",
+        "name": "António Mateus, cycling coach and founder",
+        "button_label": "",
+        "button_link": ""
+      }
     },
     "reviews": {
       "type": "lo-reviews",
       "settings": {
-        "scheme": "white"
+        "scheme": "white",
+        "eyebrow": "Reviews",
+        "heading": "Riders trust LEADOUT"
       }
     },
     "newsletter": {
       "type": "lo-newsletter",
       "settings": {
-        "scheme": "light"
+        "scheme": "light",
+        "eyebrow": "Join the bunch",
+        "heading": "10% off your first order",
+        "text": "<p>New drops, setup tips from a coach and rider-only offers. No spam.</p>",
+        "placeholder": "Your email",
+        "button_label": "Get 10% off",
+        "success": "You're in. Your code:",
+        "code": "WELCOME10",
+        "legal": "By subscribing you agree to receive marketing emails. Unsubscribe anytime."
       }
-    },
-    "spotlight": {
-      "type": "lo-spotlight",
-      "settings": {
-        "product": "gear-wall",
-        "scheme": "white",
-        "eyebrow": "New",
-        "text": "<p>One rail, four zones: helmet on top, glasses below, a tray for your light, computer and gloves, and two hooks for your shoes. Screw it in or stick it on, no drilling needed.</p>",
-        "variant_label": "Choose your version",
-        "button_label": "Add to cart",
-        "details_label": "Full details"
-      },
-      "blocks": {
-        "p1": {
-          "type": "point",
-          "settings": {
-            "text": "Fits helmet, glasses, light, computer and shoes"
-          }
-        },
-        "p2": {
-          "type": "point",
-          "settings": {
-            "text": "Screw-in or no-drill adhesive"
-          }
-        },
-        "p3": {
-          "type": "point",
-          "settings": {
-            "text": "Free shipping across Europe over €50"
-          }
-        },
-        "p4": {
-          "type": "point",
-          "settings": {
-            "text": "30-day returns"
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3",
-        "p4"
-      ]
     }
   },
   "order": [
