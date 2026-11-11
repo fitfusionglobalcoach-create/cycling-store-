@@ -123,30 +123,12 @@
     "details": {
       "type": "product-hotspots",
       "blocks": {
-        "hotspot-1": {
-          "type": "_hotspot-product",
-          "settings": {
-            "product": "gear-wall",
-            "x-position": 35,
-            "y-position": 40
-          },
-          "blocks": {}
-        },
         "hotspot-2": {
           "type": "_hotspot-product",
           "settings": {
-            "product": "gear-wall",
+            "product": "gear-wall-ride-ready-storage-rack",
             "x-position": 60,
             "y-position": 55
-          },
-          "blocks": {}
-        },
-        "hotspot-3": {
-          "type": "_hotspot-product",
-          "settings": {
-            "product": "gear-wall",
-            "x-position": 50,
-            "y-position": 75
           },
           "blocks": {}
         },
@@ -178,9 +160,7 @@
         }
       },
       "block_order": [
-        "hotspot-1",
-        "hotspot-2",
-        "hotspot-3"
+        "hotspot-2"
       ],
       "settings": {
         "image": "shopify://shop_images/Screenshot_2026-10-21_at_21.27.29.png",
